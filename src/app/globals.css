@@ -1,0 +1,151 @@
+@import "tailwindcss";
+
+/* Standalone keyframes (used via inline animation styles) */
+@keyframes shieldY {
+  from { transform: rotateY(0deg); }
+  to { transform: rotateY(360deg); }
+}
+
+@theme {
+  /* Typography — monxdev's signature pairing */
+  --font-sans: var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-instrument), ui-serif, Georgia, serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-hand: var(--font-caveat), cursive;
+
+  /* Bright security theme — white + blue typography */
+  --color-bg: #f7f9fc;
+  --color-panel: #ffffff;
+  --color-elevated: #eef2f7;
+  --color-line: #e2e8f0;
+  --color-line-strong: #cbd5e1;
+  --color-body: #0f172a;
+  --color-muted: #475569;
+  --color-faint: #7c8aa0;
+  --color-accent: #06b6d4;
+  --color-accent-dim: #0891b2;
+  --color-alert: #e11d48;
+  --color-info: #4f46e5;
+  --color-warn: #f59e0b;
+
+  --radius-card: 14px;
+
+  --animate-pulse-dot: pulse-dot 2s ease-in-out infinite;
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-spin-slow: spin 22s linear infinite;
+  --animate-spin-rev: spin-rev 16s linear infinite;
+
+  @keyframes pulse-dot {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.8); }
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
+  }
+  @keyframes spin-rev {
+    from { transform: rotate(360deg); }
+    to { transform: rotate(0deg); }
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+  /* Keep anchored sections clear of the fixed header */
+  scroll-padding-top: 5rem;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+/* Instant anchor jumps on phones — long smooth scrolls are janky on touch */
+@media (max-width: 767px) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-body);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: var(--color-accent);
+  color: #ffffff;
+}
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-bg);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-line-strong);
+  border-radius: 8px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-faint);
+}
+
+/* Hero glow — bright, airy */
+.hero-glow {
+  background:
+    radial-gradient(60% 55% at 50% 0%, rgba(6, 182, 212, 0.10), transparent 70%),
+    radial-gradient(40% 40% at 80% 20%, rgba(79, 70, 229, 0.08), transparent 70%);
+}
+
+.card-sheen {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.6)),
+    var(--color-panel);
+  box-shadow:
+    0 1px 2px rgba(15, 23, 42, 0.04),
+    0 8px 24px -16px rgba(15, 23, 42, 0.12);
+}
+
+/* Section number label */
+.section-label {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-faint);
+}
+
+/* Terminal/console panel — stays dark for contrast in bright theme */
+.console-panel {
+  background: #0f172a;
+  color: #e2e8f0;
+}
+
+/* 3D tilt is hover-only; flatten it on touch/phones to cut compositing cost */
+@media (max-width: 767px), (hover: none) {
+  .tilt-3d {
+    perspective: none !important;
+  }
+  .tilt-3d > div:first-child {
+    transform: none !important;
+  }
+}
+
+/* iOS Safari auto-zooms form fields below 16px — keep inputs legible on phones */
+@media (max-width: 640px) {
+  input,
+  textarea,
+  select {
+    font-size: 16px;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
